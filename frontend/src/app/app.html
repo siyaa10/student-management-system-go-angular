@@ -1,0 +1,50 @@
+<main class="container">
+  <header class="page-header">
+    <h1>Student Management</h1>
+    <p>Add student details and manage the student list.</p>
+  </header>
+
+  <section class="panel">
+    <h2>Add Student</h2>
+    <form #studentForm="ngForm" (ngSubmit)="addStudent()">
+      <div class="form-grid">
+        <label>
+          Student Name
+          <input type="text" name="name" [(ngModel)]="name" required minlength="2" placeholder="Enter student name" />
+        </label>
+        <label>
+          Email
+          <input type="email" name="email" [(ngModel)]="email" required email placeholder="Enter email address" />
+        </label>
+        <label>
+          Age
+          <input type="number" name="age" [(ngModel)]="age" required min="1" max="120" placeholder="Enter age" />
+        </label>
+      </div>
+      <button type="submit" [disabled]="studentForm.invalid">Save Student</button>
+    </form>
+    @if (message) { <p class="success">{{ message }}</p> }
+    @if (error) { <p class="error">{{ error }}</p> }
+  </section>
+
+  <section class="panel">
+    <h2>Student Details</h2>
+    @if (students.length === 0) {
+      <p class="empty">No students added yet.</p>
+    } @else {
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>ID</th><th>Student Name</th><th>Email</th><th>Age</th><th>Action</th></tr></thead>
+          <tbody>
+            @for (student of students; track student.id) {
+              <tr>
+                <td>{{ student.id }}</td><td>{{ student.name }}</td><td>{{ student.email }}</td><td>{{ student.age }}</td>
+                <td><button class="delete" type="button" (click)="deleteStudent(student.id)">Delete</button></td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </section>
+</main>
